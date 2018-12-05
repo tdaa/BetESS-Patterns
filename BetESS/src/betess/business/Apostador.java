@@ -10,20 +10,17 @@ import java.util.Map;
  */
 public class Apostador extends Utilizador {
     
-    private String nome;
     private double essCoins;
     private Map<Integer, Aposta> apostas;
 
     public Apostador(String email, String nome, String password, double essCoins) {
-        super(email, password);
-        this.nome = nome;
+        super(nome, email, password);
         this.essCoins = essCoins;
         this.apostas = new HashMap<>();
     }
     
     public Apostador(Apostador a) {
-        super(a.getEmail(), a.getPassword());
-        this.nome = a.getNome();
+        super(a.getNome(), a.getEmail(), a.getPassword());
         this.essCoins = a.getEssCoins();
         this.apostas = a.getApostas();
     }
@@ -37,14 +34,6 @@ public class Apostador extends Utilizador {
      * Getters e Setters
      * @return 
      */
-    
-    public String getNome() {
-        return this.nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public double getEssCoins() {
         return this.essCoins;
@@ -98,7 +87,7 @@ public class Apostador extends Utilizador {
      */
     @Override
     public String toString() {
-        return "Apostador{ " + "nome=" + this.nome + 
+        return "Apostador{ " + "nome=" + this.getNome() + ", email= " + this.getEmail() +
                ", essCoins=" + this.essCoins + ", apostas=" + this.apostas + " }";
     }
     

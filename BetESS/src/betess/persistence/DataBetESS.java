@@ -1,6 +1,6 @@
-package betess.data;
+package betess.persistence;
 
-import betess.business.BetESS;
+import betess.business.Facade;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,7 +26,7 @@ public class DataBetESS implements Serializable {
      * @param fileName
      * @param system
      */
-    public void writeData(String fileName, BetESS system) {
+    public void writeData(String fileName, Facade system) {
         try {
             FileOutputStream fos = new FileOutputStream(fileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -47,8 +47,8 @@ public class DataBetESS implements Serializable {
      * @param b
      * @return
      */
-    public BetESS readData(String fileName, BetESS b) {
-        BetESS betEss = b;
+    public Facade readData(String fileName, Facade system) {
+        Facade betEss = system;
         
         try {
             File f = new File(fileName);
@@ -57,7 +57,7 @@ public class DataBetESS implements Serializable {
                 FileInputStream fis = new FileInputStream(fileName);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 
-                betEss = (BetESS) ois.readObject();
+                betEss = (Facade) ois.readObject();
                 ois.close();
                 
                 System.out.println("Estado importado com sucesso!");

@@ -8,6 +8,6 @@ package betess.business;
 public class Admin extends Utilizador {
     
     public Admin() {
-        super("betadmin@betess.pt", "betadmin");
+        super("admin", "betadmin@betess.pt", "betadmin");
     }
 }

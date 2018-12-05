@@ -1,8 +1,9 @@
 package betess.presentation;
 
 import betess.business.Aposta;
-import betess.business.BetESS;
+import betess.business.Facade;
 import betess.business.Evento;
+import betess.business.Observer;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -12,7 +13,7 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class EventoDialog extends javax.swing.JDialog {
     
-    private BetESS betEss;
+    private Facade betEss;
     private Evento evento;
     private Aposta aposta;
     
@@ -24,7 +25,7 @@ public class EventoDialog extends javax.swing.JDialog {
      * @param idEvento
      * @param a
      */
-    public EventoDialog(java.awt.Frame parent, boolean modal, BetESS b, int idEvento, Aposta a) {
+    public EventoDialog(java.awt.Frame parent, boolean modal, Facade b, int idEvento, Aposta a) {
         super(parent, modal);
         this.betEss = b;
         this.aposta = a;
@@ -341,15 +342,10 @@ public class EventoDialog extends javax.swing.JDialog {
 
     private void editaResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editaResBtnActionPerformed
         String res = (String) this.jComboBoxResultados.getSelectedItem();
-        
-        //if (res.equals(this.jLabelEquipaUm.getText()) || 
-          //  res.equals(this.jLabelEquipaDois.getText()) || 
-            //res.equals("EMPATE"))
-            this.betEss.novoResultado(this.evento.getIdEvento(), res);
-       // else 
-         //   javax.swing.JOptionPane.showMessageDialog(this, "Resultado desconhecido!", "Evento", 0);
+        this.betEss.novoResultado(this.evento.getIdEvento(), res);
     }//GEN-LAST:event_editaResBtnActionPerformed
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton editaEstadoBtn;
     private javax.swing.JButton editaResBtn;
@@ -370,4 +366,5 @@ public class EventoDialog extends javax.swing.JDialog {
     private javax.swing.JCheckBox oddX;
     private javax.swing.JTextField resultado;
     // End of variables declaration//GEN-END:variables
+
 }

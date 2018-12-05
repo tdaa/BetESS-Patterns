@@ -1,11 +1,17 @@
 package betess.business;
 
-import betess.data.DataBetESS;
+import betess.persistence.DataBetESS;
+import betess.business.Aposta;
+import betess.business.Evento;
+import betess.presentation.EventoDialog;
+import betess.presentation.MenuApostador;
 import com.google.gson.*;
+import java.awt.List;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,29 +19,33 @@ import java.util.Map;
 
 
 /**
- * Classe BetESS - Interage com os dados da aplicação.
+ * Classe Facade - Interage com os dados da aplicação.
  * É aqui que são guardadas as estruturas de dados que contêm toda a
  * informação relativa ao sistema.
  *
  * @author Manuel Sousa
  * @author Tiago Alves
  */
-public class BetESS implements Serializable {
+public class Facade implements Subject, Serializable {
 
     private String user;
     private Map<String, Apostador> apostadores;
     private Map<Integer, Evento> eventos;
     private Map<String, LinkedList<Aposta>> apostas;
+    private Aposta newAposta;
+    private ArrayList<Observer> observers;
     private DataBetESS bd;
 
     /**
-     * Construtor Vazio - BetESS.
+     * Construtor Vazio - Facade.
      */
-    public BetESS() {
+    public Facade() {
         this.user = "";
         this.apostadores = new HashMap<>();
         this.eventos = new HashMap<>();
         this.apostas = new HashMap<>();
+        this.newAposta = new Aposta();
+        this.observers = new ArrayList<>();
         this.bd = new DataBetESS();
     }
 
@@ -109,6 +119,25 @@ public class BetESS implements Serializable {
             this.apostas.put(id, lista);
         });
     }
+    
+    public Object getObserverMenuApostador(){
+        MenuApostador ma = null;
+        
+        for(Object obj : this.observers){
+            if (obj instanceof MenuApostador)
+                ma = (MenuApostador) obj;
+        }
+        return ma;
+    }
+
+    public Aposta getNewAposta() {
+        return newAposta;
+    }
+
+    public void setNewAposta(Aposta newAposta) {
+        this.newAposta = newAposta;
+    }   
+    
     
     /* Consultar evento por id */
     public Evento getEvento(int id) {
@@ -192,23 +221,25 @@ public class BetESS implements Serializable {
      * @param essCoins
      * @param aposta
      */
-    public void novaAposta(String userEmail, double essCoins, Aposta aposta) {
+    public void novaAposta(String userEmail, double essCoins) {
         // Adiciona valor da aposta.
-        aposta.setValor(essCoins);
+        this.newAposta.setValor(essCoins);
         
         // Substraí número de coins apostadas ao total do User.
         this.getApostador(userEmail).subtractTotalCoins(essCoins);
         
         // Adiciona a nova aposta à respetiva estrutura de dados.
-        this.apostadores.get(userEmail).addAposta(aposta);
+        this.apostadores.get(userEmail).addAposta(this.newAposta);
         
         if (this.apostas.containsKey(userEmail)) {
-            this.apostas.get(userEmail).add(aposta);
+            this.apostas.get(userEmail).add(this.newAposta);
         } else {
             LinkedList<Aposta> lista = new LinkedList<>();
-            lista.addFirst(aposta); // Adiciona aposta à cabeça de lista.
+            lista.addFirst(this.newAposta.clone()); // Adiciona aposta à cabeça de lista.
             this.apostas.put(userEmail, lista);
         }
+        
+        this.newAposta = new Aposta();
     }
     
     /**
@@ -236,6 +267,11 @@ public class BetESS implements Serializable {
     public void editaNomeUser(String novoNome) {
         this.apostadores.get(user).setNome(novoNome);
         this.apostadores.replace(user, this.apostadores.get(user));
+        
+        Utilizador u = this.getApostador(this.user);
+        Sender s = new Sender(u.getNome(), this.getObserverMenuApostador());
+        
+        this.notifyObserver(s);
     }
     
     /**
@@ -255,7 +291,7 @@ public class BetESS implements Serializable {
      * 
      * @param email
      */
-    public BetESS editaMailUser(String email) {
+    public Facade editaMailUser(String email) {
         Apostador a = this.apostadores.get(user);
         a.setEmail(email);
         
@@ -264,6 +300,18 @@ public class BetESS implements Serializable {
         this.user = email;
         
         return this;
+    }
+    
+    public void adicionaCoins(double coins){
+        this.apostadores.get(this.user).addTotalCoins(coins);
+        
+        Double essCoins = this.apostadores.get(user).getEssCoins();
+        Sender s = new Sender(essCoins, this.getObserverMenuApostador());
+        this.notifyObserver(s);
+    }
+    
+    public void removeEventoFromAposta(Evento e){
+        this.newAposta.remEventoFromAposta(e);
     }
     
     /* ********************************************* *
@@ -296,9 +344,12 @@ public class BetESS implements Serializable {
      * @param idEvento
      */
     public void alteraEstadoEvento(int idEvento) {
+        Aposta aSender = null;
+        
         if (this.eventos.containsKey(idEvento)) {
             this.eventos.get(idEvento).setEstado("FECHADO");
             boolean terminada = true;
+            
             
             for (String apostador: this.apostas.keySet()) {
                 LinkedList<Aposta> lista = this.apostas.get(apostador);
@@ -326,6 +377,7 @@ public class BetESS implements Serializable {
                         // Se a aposta estiver terminada, é calculado o ganho.
                         if (terminada) {
                             a.setTerminada(true);
+                            aSender = a;
                             verificaVitoria(a, apostador);              
                         }
                     }
@@ -335,6 +387,11 @@ public class BetESS implements Serializable {
         }
         
         this.eventos.remove(idEvento);
+        
+        /* Construção do packet a ser enviado ao notifyObserver. */
+        Sender s = new Sender(aSender, this.getObserverMenuApostador());
+        this.notifyObserver(s);
+        
     }
     
     /**
@@ -398,7 +455,7 @@ public class BetESS implements Serializable {
      */
     public void carregaEventos() {
         JsonParser parser = new JsonParser();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("betess/business/Eventos.json");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("betess/resources/Eventos.json");
         Reader reader = new InputStreamReader(inputStream);
         JsonElement rootElement = parser.parse(reader);
         JsonObject rootObject = rootElement.getAsJsonObject();
@@ -423,9 +480,9 @@ public class BetESS implements Serializable {
      * Método startApp().
      * Recupera o estado anterior da aplicação.
      * 
-     * @return Objeto 'BetESS' - Estado guardado anteriormente.
+     * @return Objeto 'Facade' - Estado guardado anteriormente.
      */
-    public BetESS startApp() {
+    public Facade startApp() {
         return this.bd.readData("betdata.obj", this);
     }
     
@@ -436,4 +493,31 @@ public class BetESS implements Serializable {
     public void endApp() {
         this.bd.writeData("betdata.obj", this);
     }   
+
+    public void registerObserver(Observer o) {
+        this.observers.add(o);
+    }
+
+    public void removeObserver(Observer o) {
+        this.observers.remove(o);
+    }
+    
+    public void notifyObserver(Object o) {
+        Sender s = (Sender) o;
+        //Object obj = s.getObserver();
+        
+        /*if (obs instanceof MenuApostador) {
+            MenuApostador ma = (MenuApostador) obs;
+            ma.update(s.getPacket());
+        } else if (obs instanceof EventoDialog) {
+            EventoDialog ed = (EventoDialog) obs;
+            ed.update(s.getPacket());
+        }*/
+        
+        for(Observer obs: this.observers){
+            obs.update(s.getPacket());
+        } 
+    }
+
+    
 }

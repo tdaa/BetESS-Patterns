@@ -2,8 +2,10 @@ package betess.presentation;
 
 import betess.business.Aposta;
 import betess.business.Apostador;
-import betess.business.BetESS;
+import betess.business.Facade;
 import betess.business.Evento;
+import betess.business.Observer;
+import betess.business.Utilizador;
 import java.awt.Color;
 import java.util.Collection;
 import javax.swing.JPanel;
@@ -15,10 +17,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Manuel Sousa
  * @author Tiago Alves
  */
-public class MenuApostador extends javax.swing.JFrame {
+public class MenuApostador extends javax.swing.JFrame implements Observer {
     
-    private BetESS betEss;
-    private Aposta newAposta;
+    private Facade betEss;
     private String user;
     
     /**
@@ -26,9 +27,9 @@ public class MenuApostador extends javax.swing.JFrame {
      * 
      * @param betEss
      */
-    public MenuApostador(BetESS betEss) {
+    public MenuApostador(Facade betEss) {
         this.betEss = betEss;
-        this.newAposta = new Aposta();
+        this.betEss.registerObserver(this); // Regista menu na lista de Observers.
         this.user = this.betEss.getUser();
         initComponents();
         
@@ -87,11 +88,9 @@ public class MenuApostador extends javax.swing.JFrame {
         jTextProfile_Nome = new javax.swing.JTextField();
         jTextProfile_Email = new javax.swing.JTextField();
         jTextProfile_Password = new javax.swing.JTextField();
-        jTextProfile_Coins = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         editaNomeBtn = new javax.swing.JButton();
         editaPassBtn = new javax.swing.JButton();
         editaEmailbtn = new javax.swing.JButton();
@@ -240,6 +239,8 @@ public class MenuApostador extends javax.swing.JFrame {
                 jPanel_BtnLogoutMouseClicked(evt);
             }
         });
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/betess/resources/icon-exit.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel_BtnLogoutLayout = new javax.swing.GroupLayout(jPanel_BtnLogout);
         jPanel_BtnLogout.setLayout(jPanel_BtnLogoutLayout);
@@ -606,9 +607,6 @@ public class MenuApostador extends javax.swing.JFrame {
         jTextProfile_Password.setEditable(false);
         jTextProfile_Password.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        jTextProfile_Coins.setEditable(false);
-        jTextProfile_Coins.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nome");
@@ -620,10 +618,6 @@ public class MenuApostador extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password");
-
-        jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("ESSCoins");
 
         editaNomeBtn.setText("Editar");
         editaNomeBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -674,7 +668,6 @@ public class MenuApostador extends javax.swing.JFrame {
             .addGroup(jPanelMain_ProfileLayout.createSequentialGroup()
                 .addGap(79, 79, 79)
                 .addGroup(jPanelMain_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextProfile_Coins, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelMain_ProfileLayout.createSequentialGroup()
                         .addGroup(jPanelMain_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextProfile_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -694,11 +687,10 @@ public class MenuApostador extends javax.swing.JFrame {
                                 .addComponent(editaPassBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(confirmaPass))))
-                    .addComponent(jLabel5)
                     .addComponent(jLabel4)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanelMain_ProfileLayout.setVerticalGroup(
             jPanelMain_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,11 +717,7 @@ public class MenuApostador extends javax.swing.JFrame {
                     .addComponent(jTextProfile_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(editaPassBtn)
                     .addComponent(confirmaPass))
-                .addGap(16, 16, 16)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextProfile_Coins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addContainerGap(332, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanelMain_Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 0, 890, 680));
@@ -819,7 +807,7 @@ public class MenuApostador extends javax.swing.JFrame {
 
         ganhos.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         ganhos.setForeground(new java.awt.Color(255, 255, 255));
-        ganhos.setText(String.valueOf(this.newAposta.getValor())
+        ganhos.setText(String.valueOf(this.betEss.getNewAposta().getValor())
         );
 
         javax.swing.GroupLayout jPanelMain_ApostaLayout = new javax.swing.GroupLayout(jPanelMain_Aposta);
@@ -864,18 +852,18 @@ public class MenuApostador extends javax.swing.JFrame {
         jPanelMain_MinhasApostas.setBackground(new java.awt.Color(36, 47, 65));
         jPanelMain_MinhasApostas.setPreferredSize(new java.awt.Dimension(840, 617));
 
-        jTableMinhasApostas.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jTableMinhasApostas.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jTableMinhasApostas.setForeground(new java.awt.Color(255, 102, 102));
         jTableMinhasApostas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Identificador da Aposta", "Ganho Possivel"
+                "Identificador da Aposta", "Ganho Possivel", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1005,7 +993,7 @@ public class MenuApostador extends javax.swing.JFrame {
             int index = jTableEventos.getSelectedRow();
             int idEvento = (int) model.getValueAt(index, 0);
         
-            EventoDialog ed = new EventoDialog(this, true, this.betEss, idEvento, this.newAposta);
+            EventoDialog ed = new EventoDialog(this, true, this.betEss, idEvento, this.betEss.getNewAposta());
             ed.setVisible(true);
         } catch (ArrayIndexOutOfBoundsException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Nenhum evento selecionado!", "Consulta", 0);
@@ -1017,8 +1005,6 @@ public class MenuApostador extends javax.swing.JFrame {
         indMinhasApostas.setOpaque(true);
         resetColor(new JPanel[] { jPanelHome, jPanelProfile, jPanelAposta }, 
                    new JPanel[] { indHome, indProfile, indAposta });
-        
-        addAllApostasTable(this.betEss.getApostasUser(this.user));
         
         jPanelMain_Home.setVisible(false);
         jPanelMain_Profile.setVisible(false);
@@ -1036,16 +1022,13 @@ public class MenuApostador extends javax.swing.JFrame {
             double val = Double.parseDouble(textFieldCoins.getText());
             double totalCoinsUser = this.betEss.getApostador(this.user).getEssCoins();
             
-            System.out.println(val);
-            
             if (val <= 0 || val > totalCoinsUser) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Número de ESSCoins inválido!", "Submeter Aposta", 0);
                 return;
             }
             
             // Insere uma cópia da nova aposta no respetivo user.
-            this.betEss.novaAposta(this.user, val, this.newAposta.clone());
-            this.newAposta = new Aposta();
+            this.betEss.novaAposta(this.user, val);
             
             jDialogApostar.dispose();
         
@@ -1055,13 +1038,7 @@ public class MenuApostador extends javax.swing.JFrame {
                        new JPanel[] { indHome, indProfile, indAposta });
         
             addAllApostasTable(this.betEss.getApostasUser(this.user));
-            
-            // Número de ESSCoins em home é atualizado.
-            jTextHome_Coins.setText("" + this.betEss.getApostador(this.user).getEssCoins());
-            
-            // Número de ESSCoins em profile é atualizado.
-            jTextProfile_Coins.setText("" + this.betEss.getApostador(this.user).getEssCoins());
-        
+           
             jPanelMain_Home.setVisible(false);
             jPanelMain_Profile.setVisible(false);
             jPanelMain_Aposta.setVisible(false);
@@ -1081,7 +1058,7 @@ public class MenuApostador extends javax.swing.JFrame {
             Evento e = this.betEss.getEvento(idEvento);
 
             // Remover evento selecionado da Aposta atual.
-            this.newAposta.remEventoFromAposta(e);
+            this.betEss.removeEventoFromAposta(e);
 
             // Atualizar tabela de eventos.
             setupApostaAtual();
@@ -1094,13 +1071,7 @@ public class MenuApostador extends javax.swing.JFrame {
         double coins = Double.parseDouble((String)jComboBoxNCoins.getSelectedItem());
         
         // Adiciona as coins carregadas ao total existente.
-        this.betEss.getApostador(this.user).addTotalCoins(coins);
-        
-        // Atualizada as coins mostradas no menu Home.
-        jTextHome_Coins.setText("" + this.betEss.getApostador(this.user).getEssCoins());
-        
-        //Atualizadas as coins mostradas no menu Profile
-        jTextProfile_Coins.setText("" + this.betEss.getApostador(this.user).getEssCoins());
+        this.betEss.adicionaCoins(coins);
     }//GEN-LAST:event_BtnCarregarCoinsActionPerformed
 
     private void jPanelVerApostaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelVerApostaMouseClicked
@@ -1176,7 +1147,6 @@ public class MenuApostador extends javax.swing.JFrame {
         jTextProfile_Nome.setText(a.getNome());
         jTextProfile_Email.setText(a.getEmail());
         jTextProfile_Password.setText(a.getPassword());
-        jTextProfile_Coins.setText("" + a.getEssCoins());
               
         // Adiciona todos os eventos existentes à JList.
         addAllEventosTable(this.betEss.getEventos().values());
@@ -1221,18 +1191,18 @@ public class MenuApostador extends javax.swing.JFrame {
         model.addColumn("Odd Apostada");
         //DefaultTableModel model = (DefaultTableModel) jTableAposta.getModel();
         
-        this.newAposta.getEventos().values().forEach(e -> {
+        this.betEss.getNewAposta().getEventos().values().forEach(e -> {
             model.addRow(new Object[] {
                 e.getIdEvento(),
                 e.getEquipaUm(),
                 e.getEquipaDois(),
-                this.newAposta.getOdds().get(e.getIdEvento())
+                this.betEss.getNewAposta().getOdds().get(e.getIdEvento())
             });
         });
         
         jTableAposta.setModel(model);
         
-        double val = this.newAposta.getTotalOdds();
+        double val = this.betEss.getNewAposta().getTotalOdds();
         ganhos.setText(String.valueOf(val) + " x ESSCoins apostadas.");      
     }
     
@@ -1266,18 +1236,47 @@ public class MenuApostador extends javax.swing.JFrame {
     }
     
     public void addAllApostasTable(Collection<Aposta> apostas) {
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Identificador");
-        model.addColumn("Ganho possível");
+        DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
         
         apostas.forEach(a -> {
             model.addRow(new Object[] {
                 a.getIdAposta(),
-                a.getGanhoTotal()
+                a.getGanhoTotal(),
+                converte(a.getIsTerminada())
             });
         });
-        
-        jTableMinhasApostas.setModel(model); 
+    }
+    
+    public String converte(boolean t) {
+        if (t) 
+            return "FECHADA";
+        else 
+            return "ABERTA";
+    }
+    
+    @Override
+    public void update(Object o) {   
+        if (o instanceof Aposta) {
+            Aposta a = (Aposta) o;
+            int id = a.getIdAposta();
+            boolean encontrado = false;
+            DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
+             
+            for (int count = 0; count < model.getRowCount() && !encontrado; count++) {
+                if (Integer.parseInt(model.getValueAt(count, 0).toString()) == id) {
+                    encontrado = true;
+                    model.setValueAt(converte(a.getIsTerminada()), count, 2);
+                }
+            } 
+        }
+        else if (o instanceof String) {
+            String nome = (String) o;
+            this.jTextHome_Nome.setText(nome);
+        }
+        else if (o instanceof Double){
+            double coins = (double) o;
+            this.jTextHome_Coins.setText("" + coins);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1307,7 +1306,6 @@ public class MenuApostador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1343,11 +1341,9 @@ public class MenuApostador extends javax.swing.JFrame {
     private javax.swing.JTable jTableMinhasApostas;
     private javax.swing.JTextField jTextHome_Coins;
     private javax.swing.JTextField jTextHome_Nome;
-    private javax.swing.JTextField jTextProfile_Coins;
     private javax.swing.JTextField jTextProfile_Email;
     private javax.swing.JTextField jTextProfile_Nome;
     private javax.swing.JTextField jTextProfile_Password;
     private javax.swing.JTextField textFieldCoins;
     // End of variables declaration//GEN-END:variables
-
 }

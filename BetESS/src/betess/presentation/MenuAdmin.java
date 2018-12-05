@@ -1,6 +1,6 @@
 package betess.presentation;
 
-import betess.business.BetESS;
+import betess.business.Facade;
 import betess.business.Evento;
 import java.util.Map;
 import javax.swing.DefaultListModel;
@@ -13,14 +13,14 @@ import javax.swing.DefaultListModel;
  */
 public class MenuAdmin extends javax.swing.JFrame {
     
-    private BetESS betEss;
+    private Facade betEss;
     
     /**
      * Construtor de um novo MenuAdmin.
      * 
      * @param betEss
      */
-    public MenuAdmin(BetESS betEss) {
+    public MenuAdmin(Facade betEss) {
         this.betEss = betEss;
         initComponents();
         atualizaLista();

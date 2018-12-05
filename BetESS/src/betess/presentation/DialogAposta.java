@@ -1,7 +1,9 @@
 package betess.presentation;
 
 import betess.business.Aposta;
-import betess.business.BetESS;
+import betess.business.Evento;
+import betess.business.Facade;
+import betess.business.Observer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -9,9 +11,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Manuel Sousa
  * @author Tiago Alves
  */
-public class DialogAposta extends javax.swing.JDialog {
+public class DialogAposta extends javax.swing.JDialog{
     
-    private BetESS betEss;
+    private Facade betEss;
     private Aposta aposta;
 
     /**
@@ -21,7 +23,7 @@ public class DialogAposta extends javax.swing.JDialog {
      * @param b
      * @param a
      */
-    public DialogAposta(java.awt.Frame parent, boolean modal, BetESS b, Aposta a) {
+    public DialogAposta(java.awt.Frame parent, boolean modal, Facade b, Aposta a) {
         super(parent, modal);
         this.betEss = b;
         this.aposta = a;
@@ -129,4 +131,5 @@ public class DialogAposta extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableAposta;
     // End of variables declaration//GEN-END:variables
+
 }

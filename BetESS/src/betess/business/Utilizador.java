@@ -9,12 +9,14 @@ import java.io.Serializable;
  */
 public class Utilizador implements Serializable {
     
+    private String nome;
     private String email;
     private String password;
     
     public Utilizador() { }
 
-    public Utilizador(String email, String password) {
+    public Utilizador(String nome, String email, String password) {
+        this.nome = nome;
         this.email = email;
         this.password = password;
     }
@@ -23,6 +25,14 @@ public class Utilizador implements Serializable {
      * Getters e Setters.
      * @return 
      */
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
     public String getEmail() {
         return this.email;
     }

@@ -7,7 +7,7 @@ package betess.presentation;
 
 import betess.business.Aposta;
 import betess.business.Apostador;
-import betess.business.BetESS;
+import betess.business.Facade;
 import betess.business.Evento;
 import java.util.Map;
 import javax.swing.DefaultListModel;
@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DialogApostador extends javax.swing.JDialog {
     
-    private BetESS betEss;
+    private Facade betEss;
     private String user;
     
     /**
@@ -29,7 +29,7 @@ public class DialogApostador extends javax.swing.JDialog {
      * @param b
      * @param userEmail
      */
-    public DialogApostador(java.awt.Frame parent, boolean modal, BetESS b, String userEmail) {
+    public DialogApostador(java.awt.Frame parent, boolean modal, Facade b, String userEmail) {
         super(parent, modal);
         this.betEss = b;
         this.user = userEmail;

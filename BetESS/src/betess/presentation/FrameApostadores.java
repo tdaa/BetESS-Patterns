@@ -6,7 +6,7 @@
 package betess.presentation;
 
 import betess.business.Apostador;
-import betess.business.BetESS;
+import betess.business.Facade;
 import java.util.Map;
 import javax.swing.DefaultListModel;
 
@@ -16,12 +16,12 @@ import javax.swing.DefaultListModel;
  */
 public class FrameApostadores extends javax.swing.JFrame {
     
-    private BetESS betEss;
+    private Facade betEss;
     
     /**
      * Creates new form FrameApostadores
      */
-    public FrameApostadores(BetESS b) {
+    public FrameApostadores(Facade b) {
         this.betEss = b;
         initComponents();
         atualizaLista();

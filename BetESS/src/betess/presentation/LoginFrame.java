@@ -1,26 +1,28 @@
 package betess.presentation;
 
-import betess.business.BetESS;
+import betess.business.Facade;
 import betess.business.PassErradaException;
 import betess.business.EmailErradoException;
 import betess.business.RegistoInvalidoException;
+import java.awt.event.KeyEvent;
 
 /**
  * LoginFrame => Interface do menu de login da aplicação.
- *
+ * *TODO* FAZER MÉTODO PARA CARREGAR NO ENTER E DAR LOGIN!
+ * 
  * @author Manuel Sousa
  * @author Tiago Alves
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    private BetESS betEss;
+    private Facade betEss;
     
     /**
      * Construtor de um novo LoginFrame.
      * 
      * @param betEss
      */
-    public LoginFrame(BetESS betEss) {
+    public LoginFrame(Facade betEss) {
         initComponents();
         this.betEss = betEss;
     }
@@ -212,7 +214,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 84, Short.MAX_VALUE)
+                .addGap(0, 86, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel_Nome)
@@ -238,17 +240,17 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel_Login)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel_RegistarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 85, Short.MAX_VALUE))
+                .addGap(0, 86, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 0, 430, 567));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void passwordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusGained
         // TODO add your handling code here:
         passwordField.setText("");

@@ -1,6 +1,6 @@
 package betess.presentation;
 
-import betess.business.BetESS;
+import betess.business.Facade;
 
 /**
  * Classe Main.
@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         //BetESS betEss = new BetESSData().readData("BetData");
-        BetESS betEss = new BetESS().startApp();
+        Facade betEss = new Facade().startApp();
         LoginFrame lf = new LoginFrame(betEss);
         
         lf.setLocationRelativeTo(null);

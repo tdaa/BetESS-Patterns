@@ -5,7 +5,7 @@
  */
 package betess.presentation;
 
-import betess.business.BetESS;
+import betess.business.Facade;
 
 /**
  *
@@ -13,12 +13,12 @@ import betess.business.BetESS;
  */
 public class DialogNovoEvento extends javax.swing.JDialog {
 
-    private BetESS betEss;
+    private Facade betEss;
     
     /**
      * Creates new form DialogNovoevento
      */
-    public DialogNovoEvento(java.awt.Frame parent, boolean modal, BetESS b) {
+    public DialogNovoEvento(java.awt.Frame parent, boolean modal, Facade b) {
         super(parent, modal);
         this.betEss = b;
         initComponents();

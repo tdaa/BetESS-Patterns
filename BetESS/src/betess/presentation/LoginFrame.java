@@ -4,7 +4,6 @@ import betess.business.Facade;
 import betess.business.PassErradaException;
 import betess.business.EmailErradoException;
 import betess.business.RegistoInvalidoException;
-import java.awt.event.KeyEvent;
 
 /**
  * LoginFrame => Interface do menu de login da aplicação.
@@ -50,7 +49,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         passwordField = new javax.swing.JPasswordField();
         nomeTextField = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox_TermosCond = new javax.swing.JCheckBox();
         jPanel_RegistarBtn = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel_Registar = new javax.swing.JLabel();
@@ -127,10 +126,10 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setBackground(new java.awt.Color(36, 47, 65));
-        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Concordo com os termos e condições");
+        jCheckBox_TermosCond.setBackground(new java.awt.Color(36, 47, 65));
+        jCheckBox_TermosCond.setForeground(new java.awt.Color(255, 255, 255));
+        jCheckBox_TermosCond.setSelected(true);
+        jCheckBox_TermosCond.setText("Concordo com os termos e condições");
 
         jPanel_RegistarBtn.setBackground(new java.awt.Color(255, 102, 102));
         jPanel_RegistarBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -205,7 +204,7 @@ public class LoginFrame extends javax.swing.JFrame {
                                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jCheckBox1)
+                                .addComponent(jCheckBox_TermosCond)
                                 .addComponent(jLabel_Password)
                                 .addComponent(jLabel_Email)
                                 .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -235,7 +234,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(jCheckBox_TermosCond)
                 .addGap(25, 25, 25)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -252,44 +251,44 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void passwordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusGained
-        // TODO add your handling code here:
         passwordField.setText("");
     }//GEN-LAST:event_passwordFieldFocusGained
 
     private void nomeTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nomeTextFieldMouseClicked
-        // TODO add your handling code here:
         nomeTextField.setText("");
     }//GEN-LAST:event_nomeTextFieldMouseClicked
 
     private void emailTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailTextFieldFocusGained
-        // TODO add your handling code here:
         emailTextField.setText("");
     }//GEN-LAST:event_emailTextFieldFocusGained
 
     private void jLabel_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_LoginMouseClicked
-        String user = emailTextField.getText();
-        char[] arrayPass = passwordField.getPassword();
-        String password = String.valueOf(arrayPass);
-        
-        int estatuto = -1;
+        if (jCheckBox_TermosCond.isSelected()) {
+            String user = emailTextField.getText();
+            char[] arrayPass = passwordField.getPassword();
+            String password = String.valueOf(arrayPass);
 
-        try {
-            estatuto = this.betEss.login(user, password);
-        } catch (EmailErradoException | PassErradaException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Dados inválidos!", "Login", 0);
-        }
-        
-        if (estatuto == 0) {
-            MenuAdmin menu = new MenuAdmin(this.betEss);
-            menu.setLocationRelativeTo(null);
-            menu.setVisible(true);
-            this.dispose();
-        } else if (estatuto == 1) {
-            MenuApostador menu = new MenuApostador(this.betEss);
-            menu.setLocationRelativeTo(null);
-            menu.setVisible(true);
-            this.dispose();
-        }
+            int estatuto = -1;
+
+            try {
+                estatuto = this.betEss.login(user, password);
+            } catch (EmailErradoException | PassErradaException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Dados inválidos!", "Login", 0);
+            }
+
+            if (estatuto == 0) {
+                MenuAdmin menu = new MenuAdmin(this.betEss);
+                menu.setLocationRelativeTo(null);
+                menu.setVisible(true);
+                this.dispose();
+            } else if (estatuto == 1) {
+                MenuApostador menu = new MenuApostador(this.betEss);
+                menu.setLocationRelativeTo(null);
+                menu.setVisible(true);
+                this.dispose();
+            }
+        } else
+            javax.swing.JOptionPane.showMessageDialog(this, "Não confirmou termos e condições!", "Termos e Condições", 0); 
     }//GEN-LAST:event_jLabel_LoginMouseClicked
 
     private void jPanel_RegistarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_RegistarBtnMouseClicked
@@ -300,17 +299,21 @@ public class LoginFrame extends javax.swing.JFrame {
         char[] arrayPass = passwordField.getPassword();
         String password = String.valueOf(arrayPass);
         
-        try {
-            this.betEss.registo(email, nome, password, 0);
-            javax.swing.JOptionPane.showMessageDialog(this, "Registo efetuado com sucesso!", "Registo", 1); // Futuramente mudar icon!
-        } catch (RegistoInvalidoException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Dados inválidos!", "Registo", 0);
-        }
+        if (jCheckBox_TermosCond.isSelected()) {
+            try {
+                this.betEss.registo(email, nome, password, 0);
+                javax.swing.JOptionPane.showMessageDialog(this, "Registo efetuado com sucesso!", "Registo", 1);
+            } catch (RegistoInvalidoException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Dados inválidos!", "Registo", 0);
+            }
+        } else
+            javax.swing.JOptionPane.showMessageDialog(this, "Não confirmou termos e condições!", "Termos e Condições", 0);     
     }//GEN-LAST:event_jPanel_RegistarBtnMouseClicked
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailTextField;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox_TermosCond;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;

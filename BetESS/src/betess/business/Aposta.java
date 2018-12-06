@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Classe Aposta.
+ * É nesta classe que é guardada toda a informação relativa a uma Aposta.
+ * 
  * @author Manuel Sousa
  * @author Tiago Alves
  */
@@ -16,7 +18,15 @@ public class Aposta implements Serializable {
     private Map<Integer, Double> oddsApostadas;
     private double valor;
     private boolean isTerminada;
-
+    
+    /**
+     * Construtores da classe Aposta.
+     * Construtor Vazio;
+     * Construtor pelo ID;
+     * Construtor por Objeto;
+     * Construtor por parâmetros.
+     */
+    
     public Aposta() {
         this.eventos = new HashMap<>();
         this.oddsApostadas = new HashMap<>();
@@ -119,8 +129,9 @@ public class Aposta implements Serializable {
     }
     
     /**
-     *
-     * @return ganho total possível.
+     * Método getGanhoTotal().
+     * 
+     * @return ganho total possível de uma Aposta.
      */
     public double getGanhoTotal() {
         return (this.valor * this.getTotalOdds());
@@ -130,7 +141,7 @@ public class Aposta implements Serializable {
      * Método getResultadoApostador(...).
      *
      * @param e
-     * @return Resultado apostado num determinado evento.
+     * @return resultado apostado num determinado Evento.
      */
     public String getResultadoApostado(Evento e) {
         double odd = this.oddsApostadas.get(e.getIdEvento());
@@ -147,9 +158,8 @@ public class Aposta implements Serializable {
 
     /**
      * Método toString().
-     * Retorna uma representação textual do objeto.
      * 
-     * @return 
+     * @return representação textual do objeto.
      */
     @Override
     public String toString() {
@@ -159,10 +169,10 @@ public class Aposta implements Serializable {
     
     /**
      * Método clone().
-     * Retorna uma cópia do objeto.
      * 
-     * @return 
+     * @return cópia exata do objeto.
      */
+    @Override
     public Aposta clone() {
         return new Aposta(this);
     }
@@ -171,14 +181,13 @@ public class Aposta implements Serializable {
      * Método addEventoToAposta(...).
      * Adiciona evento a uma aposta.
      * 
-     * @param e
-     * @param odd 
+     * @param e - Evento a adicionar à Aposta
+     * @param odd - Odd previamente selecionada no Evento.
      */
     public void addEventoToAposta(Evento e, double odd) {
         if (!this.eventos.containsKey(e.getIdEvento())) {
             this.eventos.put(e.getIdEvento(), e);
             this.oddsApostadas.put(e.getIdEvento(), odd);
-            //this.valor += odd;
         }
     }
     
@@ -186,11 +195,10 @@ public class Aposta implements Serializable {
      * Método remEventoFromAposta(...).
      * Remove evento de uma aposta.
      * 
-     * @param e 
+     * @param e - Evento a remover da respetiva Aposta.
      */
     public void remEventoFromAposta(Evento e) {
         this.eventos.remove(e.getIdEvento(), e);
-        //this.valor -= this.oddsApostadas.get(e.getIdEvento());
         this.oddsApostadas.remove(e.getIdEvento());
     }
 }

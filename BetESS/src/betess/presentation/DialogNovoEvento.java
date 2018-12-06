@@ -1,22 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.presentation;
 
 import betess.business.Facade;
 
 /**
  *
- * @author tiagoalves
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
 public class DialogNovoEvento extends javax.swing.JDialog {
 
     private Facade betEss;
     
     /**
-     * Creates new form DialogNovoevento
+     * Creates new form DialogNovoevento.
+     * 
+     * @param parent
+     * @param modal
+     * @param b
      */
     public DialogNovoEvento(java.awt.Frame parent, boolean modal, Facade b) {
         super(parent, modal);
@@ -249,24 +249,25 @@ public class DialogNovoEvento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO add your handling code here:
         String equipaUm = this.equipaUmField.getText();
         String equipaDois = this.equipaDoisField.getText();
         String oddUm = this.oddUmField.getText();
         String oddX = this.oddXField.getText();
         String oddDois = this.oddDoisField.getText();
-        if(equipaUm != null && equipaDois != null && oddUm != null && oddX != null
-            && oddDois != null){
+        
+        if (equipaUm != null && equipaDois != null && 
+            oddUm != null && oddX != null && oddDois != null) 
+        {
             double um = Double.valueOf(oddUm);
             double dois = Double.valueOf(oddDois);
             double x = Double.valueOf(oddX);
             this.betEss.novoEvento(equipaUm, equipaDois, um, x, dois);
         }
+        
         this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarButtonActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_cancelarButtonActionPerformed
 

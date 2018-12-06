@@ -3,7 +3,9 @@ package betess.business;
 import java.io.Serializable;
 
 /**
- *
+ * Classe Utilizador.
+ * É nesta classe que é guardada toda a informação relativa a um Utilizador geral.
+ * 
  * @author Manuel Sousa
  * @author Tiago Alves
  */
@@ -12,6 +14,12 @@ public class Utilizador implements Serializable {
     private String nome;
     private String email;
     private String password;
+    
+    /**
+     * Construtores da classe Utilizador.
+     * Construtor Vazio;
+     * Construtor por parâmetros.
+     */
     
     public Utilizador() { }
 

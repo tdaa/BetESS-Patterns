@@ -150,7 +150,7 @@
                                   <Component id="passwordField" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                                   <Component id="jSeparator5" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                                   <Component id="jSeparator6" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox_TermosCond" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel_Password" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel_Email" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="emailTextField" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
@@ -186,7 +186,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator6" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jCheckBox_TermosCond" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="25" pref="25" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
@@ -285,7 +285,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nomeTextFieldMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+        <Component class="javax.swing.JCheckBox" name="jCheckBox_TermosCond">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="41" green="2f" red="24" type="rgb"/>

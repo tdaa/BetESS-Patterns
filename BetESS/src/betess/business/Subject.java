@@ -1,13 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.business;
 
 /**
+ * Interface Subject.
+ * Esta interface representa um Observable no padrão de Software usado,
+ * e tem o intuito de definir os métodos que iram ser previamente implementados.
+ * 
  *
- * @author tiagoalves
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
 public interface Subject {
     
@@ -16,5 +16,4 @@ public interface Subject {
     void removeObserver(Observer o);
     
     void notifyObserver(Object o);
-    
 }

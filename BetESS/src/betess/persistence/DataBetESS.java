@@ -19,9 +19,15 @@ import java.io.Serializable;
  */
 public class DataBetESS implements Serializable {
 
+    /**
+     * Construtor Vazio.
+     */
     public DataBetESS() { } 
     
     /**
+     * Método writeData(...).
+     * Aqui é feita a escrita do estado atual do sistema para um 
+     * determinado ficheiro.
      *
      * @param fileName
      * @param system
@@ -42,10 +48,12 @@ public class DataBetESS implements Serializable {
     }
     
     /**
-     *
+     * Método readData(...).
+     * Aqui é lido o estado anteriormente guardado no ficheiro em parâmetro.
+     * 
      * @param fileName
-     * @param b
-     * @return
+     * @param system
+     * @return - estado que foi lido do ficheiro.
      */
     public Facade readData(String fileName, Facade system) {
         Facade betEss = system;

@@ -5,7 +5,7 @@ import betess.business.Facade;
 /**
  * Classe Main.
  * É aqui que todo o programa é inicializado.
- * A Main trata de iniciar uma nova instância de BetESS e uma 
+ * A Main trata de iniciar uma nova instância de Facade e uma 
  * nova instância de LoginFrame, chamando este último.
  * 
  * @author Manuel Sousa
@@ -17,7 +17,6 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //BetESS betEss = new BetESSData().readData("BetData");
         Facade betEss = new Facade().startApp();
         LoginFrame lf = new LoginFrame(betEss);
         
@@ -25,5 +24,4 @@ public class Main {
         lf.setVisible(true);
         lf.setFocusableWindowState(true);
     }
-    
 }

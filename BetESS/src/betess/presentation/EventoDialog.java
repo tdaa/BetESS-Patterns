@@ -3,7 +3,6 @@ package betess.presentation;
 import betess.business.Aposta;
 import betess.business.Facade;
 import betess.business.Evento;
-import betess.business.Observer;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -19,6 +18,7 @@ public class EventoDialog extends javax.swing.JDialog {
     
     /**
      * Creates new form EventoDialog.
+     * 
      * @param parent
      * @param modal
      * @param b
@@ -62,7 +62,6 @@ public class EventoDialog extends javax.swing.JDialog {
         
         if (this.betEss.getUser().equals("betadmin@betess.pt")) {
             this.estado.setEditable(false);
-            //this.resultado.setEditable(true);
             this.resultado.setVisible(false);
             this.jPanelAddEvento.setVisible(false);
         } else {
@@ -328,7 +327,7 @@ public class EventoDialog extends javax.swing.JDialog {
             double odd = Double.valueOf(this.oddX.getText());
             this.aposta.addEventoToAposta(this.evento, odd);
             this.dispose();
-        } //else javax.swing.JOptionPane.showMessageDialog(this, "Apostas múltiplas não são permitidas!", "Aposta", 0);
+        }
     }//GEN-LAST:event_jPanelAddEventoMouseClicked
 
     private void estadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoActionPerformed

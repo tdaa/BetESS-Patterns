@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.presentation;
 
 import betess.business.Aposta;
 import betess.business.Apostador;
 import betess.business.Facade;
 import betess.business.Evento;
-import java.util.Map;
-import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author tiagoalves
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
 public class DialogApostador extends javax.swing.JDialog {
     

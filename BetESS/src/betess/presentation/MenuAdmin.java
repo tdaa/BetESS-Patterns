@@ -227,7 +227,7 @@ public class MenuAdmin extends javax.swing.JFrame {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // Botão remover.
         String s = this.listaEventos.getSelectedValue();
-        if(s != null){
+        if (s != null){
             int id = Integer.parseInt(s.substring(0, s.indexOf(" - ")));
             this.betEss.removeEvento(id);
             this.atualizaLista();
@@ -255,7 +255,6 @@ public class MenuAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutButtonActionPerformed
 
     private void consultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultButtonActionPerformed
-        // TODO add your handling code here:
         String s = this.listaEventos.getSelectedValue();
         if (s != null){
             int id = Integer.parseInt(s.substring(0, s.indexOf(" - ")));
@@ -264,6 +263,7 @@ public class MenuAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_consultButtonActionPerformed
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LogoutButton;
     private javax.swing.JButton addButton;

@@ -1,25 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.presentation;
 
-import betess.business.Apostador;
 import betess.business.Facade;
-import java.util.Map;
 import javax.swing.DefaultListModel;
 
 /**
  *
- * @author tiagoalves
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
 public class FrameApostadores extends javax.swing.JFrame {
     
     private Facade betEss;
     
     /**
-     * Creates new form FrameApostadores
+     * Creates new form FrameApostadores.
+     * 
+     * @param b
      */
     public FrameApostadores(Facade b) {
         this.betEss = b;
@@ -29,9 +25,11 @@ public class FrameApostadores extends javax.swing.JFrame {
     
     public void atualizaLista(){
         DefaultListModel<String> dlm = new DefaultListModel<>();
-        for(Map.Entry<String,Apostador> m: this.betEss.getApostadores().entrySet()){
+        
+        this.betEss.getApostadores().entrySet().forEach(m -> {
             dlm.addElement(m.getKey());
-        }
+        });
+        
         this.listaApostadores.setModel(dlm);
     }
 
@@ -161,15 +159,15 @@ public class FrameApostadores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void consultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultButtonActionPerformed
-        // botao consultar apostador
+        // Botão consultar Apostador.
         String s = this.listaApostadores.getSelectedValue();
-        if(s != null){
+        if (s != null){
             DialogApostador da = new DialogApostador(this, true, this.betEss, s);
             da.setVisible(true);
         }
     }//GEN-LAST:event_consultButtonActionPerformed
 
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton consultButton;
     private javax.swing.JLabel jLabel1;

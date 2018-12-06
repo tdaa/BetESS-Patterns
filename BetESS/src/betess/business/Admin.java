@@ -1,7 +1,8 @@
 package betess.business;
 
 /**
- *
+ * Classe Admin - Generalização de Utilizador.
+ * 
  * @author Manuel Sousa
  * @author Tiago Alves
  */

@@ -5,7 +5,6 @@ import betess.business.Apostador;
 import betess.business.Facade;
 import betess.business.Evento;
 import betess.business.Observer;
-import betess.business.Utilizador;
 import java.awt.Color;
 import java.util.Collection;
 import javax.swing.JPanel;
@@ -13,6 +12,9 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * MenuApostador => Interface do menu de um apostador da aplicação.
+ * Esta classe é implementa a interface Observer, visto ser necessário
+ * estar a observar quando existem alterações nos dados da aplicação, as quais
+ * são refletidas na interface.
  *
  * @author Manuel Sousa
  * @author Tiago Alves
@@ -1218,7 +1220,7 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
     
     /**
      * Adiciona todos os eventos ativos à tabela.
-     * @param eventos
+     * @param eventos - eventos existentes no sistema.
      */
     public void addAllEventosTable(Collection<Evento> eventos) {
         DefaultTableModel model = (DefaultTableModel) jTableEventos.getModel();
@@ -1235,6 +1237,10 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
         });
     }
     
+    /**
+     * Adiciona todas as apostas do user em sessão à tabela.
+     * @param apostas - apostas do utilizador.
+     */
     public void addAllApostasTable(Collection<Aposta> apostas) {
         DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
         
@@ -1254,6 +1260,14 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
             return "ABERTA";
     }
     
+    /**
+     * Método update(Object o).
+     * Altera determinado dado na aplicação consoante a informação recebida
+     * em parâmetro.
+     * De notar que este método é implementado através da interface Observer.
+     * 
+     * @param o 
+     */
     @Override
     public void update(Object o) {   
         if (o instanceof Aposta) {
@@ -1268,13 +1282,11 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
                     model.setValueAt(converte(a.getIsTerminada()), count, 2);
                 }
             } 
-        }
-        else if (o instanceof String) {
+        } else if (o instanceof String) {
             String nome = (String) o;
             this.jTextHome_Nome.setText(nome);
-        }
-        else if (o instanceof Double){
-            double coins = (double) o;
+        } else if (o instanceof Double) {
+            Double coins = (Double) o;
             this.jTextHome_Coins.setText("" + coins);
         }
     }

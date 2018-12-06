@@ -1,16 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.business;
 
 /**
+ * Interface Observer.
+ * Esta interface representa um Observer no padrão de Software usado,
+ * a qual contém o seu método principal (update) cuja função é aplicar um determinada
+ * alteração no programa, depois de recebida a notificação.
+ * 
  *
- * @author tiagoalves
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
 public interface Observer {
     
-    void update(Object o);
-    
+    void update(Object o);  
 }

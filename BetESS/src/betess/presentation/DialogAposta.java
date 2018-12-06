@@ -1,9 +1,7 @@
 package betess.presentation;
 
 import betess.business.Aposta;
-import betess.business.Evento;
 import betess.business.Facade;
-import betess.business.Observer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -11,13 +9,14 @@ import javax.swing.table.DefaultTableModel;
  * @author Manuel Sousa
  * @author Tiago Alves
  */
-public class DialogAposta extends javax.swing.JDialog{
+public class DialogAposta extends javax.swing.JDialog {
     
     private Facade betEss;
     private Aposta aposta;
 
     /**
-     * Creates new form DialogAposta
+     * Creates new form DialogAposta.
+     * 
      * @param parent
      * @param modal
      * @param b

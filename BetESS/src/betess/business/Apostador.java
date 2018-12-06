@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Classe Apostador - Generalização de Utilizador.
+ * É nesta classe que é guardada toda a informação relativa a uma Apostador.
+ * 
  * @author Manuel Sousa
  * @author Tiago Alves
  */
@@ -12,10 +14,16 @@ public class Apostador extends Utilizador {
     
     private double essCoins;
     private Map<Integer, Aposta> apostas;
-
-    public Apostador(String email, String nome, String password, double essCoins) {
-        super(nome, email, password);
-        this.essCoins = essCoins;
+    
+    /**
+     * Construtores da classe Apostador.
+     * Construtor Vazio;
+     * Construtor por Objeto;
+     * Construtor por parâmetros.
+     */
+    
+    public Apostador() {
+        super();
         this.apostas = new HashMap<>();
     }
     
@@ -25,11 +33,13 @@ public class Apostador extends Utilizador {
         this.apostas = a.getApostas();
     }
 
-    public Apostador() {
-        super();
+    
+    public Apostador(String email, String nome, String password, double essCoins) {
+        super(nome, email, password);
+        this.essCoins = essCoins;
         this.apostas = new HashMap<>();
     }
-
+  
     /**
      * Getters e Setters
      * @return 
@@ -60,8 +70,17 @@ public class Apostador extends Utilizador {
     }
     
     /**
+     * Método getIdNovaAposta().
+     * 
+     * @return novo ID para uma nova Aposta.
+     */
+    public int getIdNovaAposta() {
+        return this.apostas.size() + 1;
+    }
+    
+    /**
      * Método addTotalCoins(...).
-     * Adiciona ao total de coins o valor em parâmetro..
+     * Adiciona ao total de coins o valor em parâmetro.
      * 
      * @param coins - número de coins a serem adicionadas.
      */
@@ -80,29 +99,7 @@ public class Apostador extends Utilizador {
     }
 
     /**
-     * Método toString().
-     * Retorna uma representação textual do objeto.
-     * 
-     * @return 
-     */
-    @Override
-    public String toString() {
-        return "Apostador{ " + "nome=" + this.getNome() + ", email= " + this.getEmail() +
-               ", essCoins=" + this.essCoins + ", apostas=" + this.apostas + " }";
-    }
-    
-    /**
-     * Método getIdNovaAposta().
-     * Retorna o novo ID de uma determinada aposta.
-     * 
-     * @return Identificador para uma nova aposta.
-     */
-    public int getIdNovaAposta() {
-        return this.apostas.size() + 1;
-    }
-    
-    /**
-     * Método addAposta().
+     * Método addAposta(...).
      * Adiciona uma nova aposta ao total de apostas.
      * 
      * @param aposta - nova Aposta a ser adicionada.
@@ -110,5 +107,16 @@ public class Apostador extends Utilizador {
     public void addAposta(Aposta aposta) {
         aposta.setIdAposta(this.apostas.size() + 1);
         this.apostas.put(aposta.getIdAposta(), aposta);
+    }
+    
+    /**
+     * Método toString().
+     * 
+     * @return representação textual do objeto.
+     */
+    @Override
+    public String toString() {
+        return "Apostador{ " + "nome=" + this.getNome() + ", email= " + this.getEmail() +
+               ", essCoins=" + this.essCoins + ", apostas=" + this.apostas + " }";
     }
 }

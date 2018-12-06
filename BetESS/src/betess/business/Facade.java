@@ -1,12 +1,8 @@
 package betess.business;
 
 import betess.persistence.DataBetESS;
-import betess.business.Aposta;
-import betess.business.Evento;
-import betess.presentation.EventoDialog;
 import betess.presentation.MenuApostador;
 import com.google.gson.*;
-import java.awt.List;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -219,7 +215,6 @@ public class Facade implements Subject, Serializable {
      * 
      * @param userEmail
      * @param essCoins
-     * @param aposta
      */
     public void novaAposta(String userEmail, double essCoins) {
         // Adiciona valor da aposta.
@@ -247,7 +242,7 @@ public class Facade implements Subject, Serializable {
      * Busca pela coleção de apostas de um determinado apostador.
      * 
      * @param userEmail
-     * @return
+     * @return - Coleção de todas as Apostas associadas a um determinado user.
      */
     public Collection<Aposta> getApostasUser(String userEmail) {
         Collection<Aposta> c = null;
@@ -268,9 +263,9 @@ public class Facade implements Subject, Serializable {
         this.apostadores.get(user).setNome(novoNome);
         this.apostadores.replace(user, this.apostadores.get(user));
         
+        /* Construção do packet a ser enviado ao notifyObserver. */
         Utilizador u = this.getApostador(this.user);
         Sender s = new Sender(u.getNome(), this.getObserverMenuApostador());
-        
         this.notifyObserver(s);
     }
     
@@ -290,6 +285,7 @@ public class Facade implements Subject, Serializable {
      * Atualiza o email de um apostador.
      * 
      * @param email
+     * @return - nova Facade com informação atualizada.
      */
     public Facade editaMailUser(String email) {
         Apostador a = this.apostadores.get(user);
@@ -302,21 +298,31 @@ public class Facade implements Subject, Serializable {
         return this;
     }
     
-    public void adicionaCoins(double coins){
+    /**
+     * Método adicionaCoins(...).
+     * Adiciona um número de coins a um determinado Utilizador,
+     * notificando o respetivo Observer da alteração efetuada.
+     * 
+     * @param coins 
+     */
+    public void adicionaCoins(double coins) {
         this.apostadores.get(this.user).addTotalCoins(coins);
         
+        /* Construção do packet a ser enviado ao notifyObserver. */
         Double essCoins = this.apostadores.get(user).getEssCoins();
         Sender s = new Sender(essCoins, this.getObserverMenuApostador());
         this.notifyObserver(s);
     }
     
-    public void removeEventoFromAposta(Evento e){
+    /**
+     * Método removeEventoFromAposta(...).
+     * Remove um determinado evento de uma aposta.
+     * 
+     * @param e - evento a remover.
+     */
+    public void removeEventoFromAposta(Evento e) {
         this.newAposta.remEventoFromAposta(e);
     }
-    
-    /* ********************************************* *
-     * Conjunto de métodos chamados pelo MenuAdmin.  *
-     * ********************************************* */
 
     /**
      * Método novoEvento(...).
@@ -492,7 +498,12 @@ public class Facade implements Subject, Serializable {
      */
     public void endApp() {
         this.bd.writeData("betdata.obj", this);
-    }   
+    }
+    
+    
+    /** ********************************************* *
+     * Conjunto de métodos da interface Subject.      *
+     * ********************************************* **/
 
     public void registerObserver(Observer o) {
         this.observers.add(o);
@@ -504,20 +515,9 @@ public class Facade implements Subject, Serializable {
     
     public void notifyObserver(Object o) {
         Sender s = (Sender) o;
-        //Object obj = s.getObserver();
         
-        /*if (obs instanceof MenuApostador) {
-            MenuApostador ma = (MenuApostador) obs;
-            ma.update(s.getPacket());
-        } else if (obs instanceof EventoDialog) {
-            EventoDialog ed = (EventoDialog) obs;
-            ed.update(s.getPacket());
-        }*/
-        
-        for(Observer obs: this.observers){
+        for (Observer obs: this.observers) {
             obs.update(s.getPacket());
         } 
     }
-
-    
 }

@@ -3,7 +3,9 @@ package betess.business;
 import java.io.Serializable;
 
 /**
- *
+ * Classe Evento.
+ * É nesta classe que é guardada toda a informação relativa a um Evento.
+ * 
  * @author Manuel Sousa
  * @author Tiago Alves
  */
@@ -18,6 +20,22 @@ public class Evento implements Serializable {
     private String estado;
     private String resultado;
 
+    /**
+     * Construtores da classe Evento.
+     * Construtor por Objeto;
+     * Construtor por parâmetros.
+     */
+    
+    public Evento(Evento e) {
+        this.idEvento = e.getIdEvento();
+        this.equipaUm = e.getEquipaUm();
+        this.equipaDois = e.getEquipaDois();
+        this.oddUm = e.getOddUm();
+        this.oddDois = e.getOddDois();
+        this.oddX = e.getOddX();
+        this.estado = e.getEstado();
+        this.resultado = e.getResultado();
+    }
     
     public Evento(int idEvento, String equipaUm, String equipaDois, double oddUm, 
                   double oddDois, double oddX, String estado, String resultado) 
@@ -30,17 +48,6 @@ public class Evento implements Serializable {
         this.oddX = oddX;
         this.estado = estado;
         this.resultado = resultado;
-    }
-    
-    public Evento(Evento e) {
-        this.idEvento = e.getIdEvento();
-        this.equipaUm = e.getEquipaUm();
-        this.equipaDois = e.getEquipaDois();
-        this.oddUm = e.getOddUm();
-        this.oddDois = e.getOddDois();
-        this.oddX = e.getOddX();
-        this.estado = e.getEstado();
-        this.resultado = e.getResultado();
     }
 
     /**

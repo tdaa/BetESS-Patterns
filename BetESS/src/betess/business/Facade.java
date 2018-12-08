@@ -273,7 +273,13 @@ public class Facade implements Subject, Serializable {
             this.apostas.put(userEmail, lista);
         }
         
+        /* Construção do packet a ser enviado ao notifyObserver. */
+        Sender s = new Sender(this.newAposta, this.getObserverMenuApostador());
+        this.notifyObserver(s);
+        
         this.newAposta = new Aposta();
+        
+        
     }
     
     /**
@@ -283,13 +289,10 @@ public class Facade implements Subject, Serializable {
      * @param userEmail
      * @return - Coleção de todas as Apostas associadas a um determinado user.
      */
-    public Collection<Aposta> getApostasUser(String userEmail) {
-        Collection<Aposta> c = null;
-        
-        if (this.apostadores.containsKey(userEmail))
-            c = this.apostadores.get(userEmail).getApostas().values();
-        
-        return c;
+    public LinkedList<Aposta> getApostasUser(String userEmail) {
+        if (this.apostas.containsKey(userEmail))
+            return this.apostas.get(userEmail);
+        return null;
     }
     
     /**
@@ -361,6 +364,10 @@ public class Facade implements Subject, Serializable {
      */
     public void removeEventoFromAposta(Evento e) {
         this.newAposta.remEventoFromAposta(e);
+        
+        /* Construção do packet a ser enviado ao notifyObserver. */
+        Sender s = new Sender(e, this.getObserverMenuApostador());
+        this.notifyObserver(s);
     }
 
     /**
@@ -425,8 +432,6 @@ public class Facade implements Subject, Serializable {
                             a.setTerminada(true);
                             aSender = a;
                             
-                            //System.out.println(this.apostadores.get(this.user).toString());
-                            
                             // Adiciona notificação de Aposta finalizada.
                             this.apostadores.get(apostador)
                                     .addNotificationApostador(a.getIdAposta());
@@ -487,7 +492,49 @@ public class Facade implements Subject, Serializable {
             
     }
     
-    public double getGanhoEmAposta(int idAposta) {
+    /**
+     *
+     * @param idAposta
+     * @return Real ganho numa aposta.
+     */
+    public double getGanhoEmAposta(int idAposta){
+        boolean vitoria = true;
+        double oddApostada, ganho;
+        String resultado = "";
+        
+        Aposta a = this.apostasGerais.get(idAposta);
+        
+        for (Evento e: a.getEventos().values()) {       
+            // Guarda a odd apostada neste evento.
+            oddApostada = a.getOdds().get(e.getIdEvento());
+            
+            // Procura a equipa na qual apostou baseado na odd.
+            if (e.getOddUm() == oddApostada) 
+                resultado = e.getEquipaUm();
+            if (e.getOddDois() == oddApostada) 
+                resultado = e.getEquipaDois();
+            if (e.getOddX() == oddApostada) 
+                resultado = "EMPATE";
+            
+            // Verifica se acertou no resultado.
+            if (!resultado.equals(e.getResultado()))
+                vitoria = false;
+        }
+        
+        if (vitoria) {
+            ganho = this.getGanhoPossivelEmAposta(idAposta);
+            return ganho;
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     *
+     * @param idAposta
+     * @return Possível ganho total numa aposta.
+     */
+    public double getGanhoPossivelEmAposta(int idAposta) {
         double ganho = 0;
         
         for (LinkedList<Aposta> lista: this.apostas.values()) {
@@ -499,6 +546,10 @@ public class Facade implements Subject, Serializable {
         }
 
         return ganho;
+    }
+    
+    public String getResultadoApostado(int idAposta, Evento e){
+        return this.apostasGerais.get(idAposta).getResultadoApostado(e);
     }
            
     /**

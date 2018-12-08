@@ -209,7 +209,7 @@ public class EventoDialog extends javax.swing.JDialog {
                     .addGroup(jPanelEventoLayout.createSequentialGroup()
                         .addGap(206, 206, 206)
                         .addComponent(jPanelAddEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 50, Short.MAX_VALUE))
+                .addGap(0, 60, Short.MAX_VALUE))
         );
         jPanelEventoLayout.setVerticalGroup(
             jPanelEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,13 +302,8 @@ public class EventoDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jPanelEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();

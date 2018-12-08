@@ -1,44 +1,90 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.presentation;
 
+import betess.business.Apostador;
 import betess.business.Evento;
 import betess.business.Facade;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author tiagoalves
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
-public class JDialogNotificacoesBookie extends javax.swing.JDialog {
+public class JDialogNotifications extends javax.swing.JDialog {
     
     private Facade betEss;
+    private Integer estatuto;
 
     /**
-     * Creates new form JDialogNotificacoesBookie
+     * Creates new form JDialogNotificacoes.
+     * 
+     * @param parent
+     * @param modal
+     * @param betEss
+     * @param estatuto
      */
-    public JDialogNotificacoesBookie(java.awt.Frame parent, boolean modal, Facade f) {
+    public JDialogNotifications(java.awt.Frame parent, boolean modal, Facade betEss, Integer estatuto) {
         super(parent, modal);
+        this.betEss = betEss;
+        this.estatuto = estatuto; 
         initComponents();
-        this.betEss = f;
-        atualizaTabela();
+        
+        // Verifica qual user em sessão.
+        if (estatuto == 1)
+            this.atualizaTabelaApostador();
+        else if (estatuto == 2)
+            this.atualizaTabelaBookie();
     }
     
-    private void atualizaTabela(){
-        Map<Integer, Map<Integer, Evento>> eventos = this.betEss.getBookieEventos();
+    /**
+     * Método atualizaTabelaApostador().
+     * Atualiza a tabela de notificações no caso de o user em sessão
+     * ser um Apostador.
+     */
+    private void atualizaTabelaApostador() {
+        Apostador ap = this.betEss.getApostador(this.betEss.getUser());
+        ArrayList<Integer> noti = ap.getNotifications();
         
+        DefaultTableModel model = (DefaultTableModel) this.jTableEventos.getModel();
+          
+        noti.forEach(idAposta -> {
+            double ganho = this.betEss.getGanhoEmAposta(idAposta);
+            
+            Collection<Evento> evs = ap.getApostas()
+                    .get(idAposta)
+                    .getEventos()
+                    .values();
+            
+            evs.forEach(ev -> {
+                model.addRow(new Object[] {
+                    idAposta,
+                    ev.getIdEvento(),
+                    ev.getEquipaUm(),
+                    ev.getEquipaDois(),
+                    ev.getResultado(),
+                    ganho
+                });
+            });
+        });
+    }
+    
+    /**
+     * Método atualizaTabelaBookie().
+     * Atualiza a tabela de notificações no caso de o user em sessão
+     * ser um Bookie.
+     */
+    private void atualizaTabelaBookie() {
+        Map<Integer, Map<Integer, Evento>> eventos = this.betEss.getBookieEventos();
         Evento evento;
         double ganho;
         
         DefaultTableModel model = (DefaultTableModel) this.jTableEventos.getModel();
         
-        for(Map.Entry<Integer, Map<Integer, Evento> > m: eventos.entrySet()){
-            for(Map.Entry<Integer, Evento> m2: m.getValue().entrySet()){
-                
+        for (Map.Entry<Integer, Map<Integer, Evento> > m: eventos.entrySet()) {
+            for (Map.Entry<Integer, Evento> m2: m.getValue().entrySet()) {   
                 evento = m2.getValue();
                 ganho = this.betEss.getGanhoEmAposta(m.getKey());
                 
@@ -171,11 +217,11 @@ public class JDialogNotificacoesBookie extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okBtnActionPerformed
-        // TODO add your handling code here:
-        this.betEss.limpaNotificados();
+        this.betEss.limpaNotifications(this.estatuto);
         this.dispose();
     }//GEN-LAST:event_okBtnActionPerformed
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_BetESS_Logo;

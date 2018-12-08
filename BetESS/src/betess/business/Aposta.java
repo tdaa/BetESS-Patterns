@@ -3,7 +3,6 @@ package betess.business;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Classe Aposta.
@@ -121,11 +120,11 @@ public class Aposta implements Serializable {
                 .sum();
     }
     
-    public boolean getIsTerminada(){
+    public boolean getIsTerminada() {
         return this.isTerminada;
     }
     
-    public void setTerminada(boolean t){
+    public void setTerminada(boolean t) {
         this.isTerminada = t;
     }
     

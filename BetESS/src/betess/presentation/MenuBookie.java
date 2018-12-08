@@ -1,29 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package betess.presentation;
 
-import betess.business.Aposta;
-import betess.business.Evento;
 import betess.business.Facade;
-import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author tiagoalves
+ * MenuBookie => Interface do menu principal do Bookie.
+ * 
+ * @author Manuel Sousa
+ * @author Tiago Alves
  */
 public class MenuBookie extends javax.swing.JFrame {
     
     private Facade betEss;
     
     /**
-     * Creates new form MenuBookie
+     * Construtor de um novo MenuBookie.
+     * 
+     * @param betEss
      */
-    public MenuBookie(Facade f) {
-        this.betEss = f;
+    public MenuBookie(Facade betEss) {
+        this.betEss = betEss;
         initComponents();
         
         addAllEventosTable();
@@ -70,7 +66,6 @@ public class MenuBookie extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMinimumSize(new java.awt.Dimension(1051, 680));
-        setPreferredSize(new java.awt.Dimension(1051, 680));
         setResizable(false);
         setSize(new java.awt.Dimension(0, 0));
 
@@ -286,39 +281,37 @@ public class MenuBookie extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(120, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8)
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15)
-                        .addGap(169, 169, 169))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel_BtnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addGap(93, 93, 93)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15)
+                .addGap(169, 169, 169))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel_BtnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,27 +379,26 @@ public class MenuBookie extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanelCarregarBtnMouseClicked
 
     private void jPanelNovoEventobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelNovoEventobtnMouseClicked
-        //botao novo evento
+        // Botão novo evento.
         DialogNovoEvento ne = new DialogNovoEvento(this, true, this.betEss);
         ne.setVisible(true);
         this.addAllEventosTable();
     }//GEN-LAST:event_jPanelNovoEventobtnMouseClicked
 
     private void jPanelAcompanharEventobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelAcompanharEventobtnMouseClicked
-        //botao acompanhar evento
+        // Botão acompanhar evento.
         DefaultTableModel model = (DefaultTableModel) this.jTableEventos.getModel();
-            int index = jTableEventos.getSelectedRow();
-            int idEvento = (int) model.getValueAt(index, 0);
+        int index = jTableEventos.getSelectedRow();
+        int idEvento = (int) model.getValueAt(index, 0);
         
-            if(this.betEss.novoInteresseEvento(idEvento)){
-                javax.swing.JOptionPane.showMessageDialog(this, "A acompanhar evento!", "Evento", 1);
-            }
-            else{
-                javax.swing.JOptionPane.showMessageDialog(this, "Erro ao tentar acompanhar evento! Lamentamos o incómodo :(", "Evento", 0);
-            }
+        if (this.betEss.novoInteresseEvento(idEvento))
+            javax.swing.JOptionPane.showMessageDialog(this, "A acompanhar evento!", "Evento", 1);
+        else
+            javax.swing.JOptionPane.showMessageDialog(this, "Erro ao tentar acompanhar evento! Lamentamos o incómodo :(", "Evento", 0);
     }//GEN-LAST:event_jPanelAcompanharEventobtnMouseClicked
 
-     /* ******************************* *
+    
+    /* ******************************* *
      * Conjunto de métodos auxiliares. *
      * ******************************* */
     

@@ -105,7 +105,6 @@ public class Apostador extends Utilizador {
      * @param aposta - nova Aposta a ser adicionada.
      */
     public void addAposta(Aposta aposta) {
-        aposta.setIdAposta(this.apostas.size() + 1);
         this.apostas.put(aposta.getIdAposta(), aposta);
     }
     

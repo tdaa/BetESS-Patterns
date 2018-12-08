@@ -54,10 +54,8 @@ public class MenuAdmin extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaEventos = new javax.swing.JList<>();
-        addButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         consultButton = new javax.swing.JButton();
-        importButton = new javax.swing.JButton();
         LogoutButton = new javax.swing.JButton();
         apostadoresButton = new javax.swing.JButton();
 
@@ -125,13 +123,6 @@ public class MenuAdmin extends javax.swing.JFrame {
         listaEventos.setFont(new java.awt.Font("Avenir", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(listaEventos);
 
-        addButton.setText("Adicionar Evento");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
-
         removeButton.setText("Remover Evento");
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,13 +134,6 @@ public class MenuAdmin extends javax.swing.JFrame {
         consultButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 consultButtonActionPerformed(evt);
-            }
-        });
-
-        importButton.setText("Carregar Dados");
-        importButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importButtonActionPerformed(evt);
             }
         });
 
@@ -182,12 +166,9 @@ public class MenuAdmin extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(consultButton))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(importButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(apostadoresButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(apostadoresButton))
                 .addGap(0, 34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -198,16 +179,12 @@ public class MenuAdmin extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(addButton)
-                        .addGap(18, 18, 18)
                         .addComponent(removeButton)
                         .addGap(18, 18, 18)
-                        .addComponent(consultButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(importButton)
-                .addGap(18, 18, 18)
+                        .addComponent(consultButton))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(apostadoresButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LogoutButton)
@@ -216,13 +193,6 @@ public class MenuAdmin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // botao adicionar
-        DialogNovoEvento ne = new DialogNovoEvento(this, true, this.betEss);
-        ne.setVisible(true);
-        this.atualizaLista();
-    }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // Botão remover.
@@ -233,11 +203,6 @@ public class MenuAdmin extends javax.swing.JFrame {
             this.atualizaLista();
         }
     }//GEN-LAST:event_removeButtonActionPerformed
-
-    private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
-        this.betEss.carregaEventos();
-        this.atualizaLista();
-    }//GEN-LAST:event_importButtonActionPerformed
 
     private void apostadoresButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apostadoresButtonActionPerformed
         // Botão consultar apostadores.
@@ -266,10 +231,8 @@ public class MenuAdmin extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LogoutButton;
-    private javax.swing.JButton addButton;
     private javax.swing.JButton apostadoresButton;
     private javax.swing.JButton consultButton;
-    private javax.swing.JButton importButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

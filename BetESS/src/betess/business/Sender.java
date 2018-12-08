@@ -1,5 +1,7 @@
 package betess.business;
 
+import java.io.Serializable;
+
 /**
  * Classe Sender.
  * Classe auxiliar que tem como intuito "empacotar" a informação que é transmitida
@@ -8,7 +10,7 @@ package betess.business;
  * @author Manuel Sousa
  * @author Tiago Alves
  */
-public class Sender {
+public class Sender implements Serializable{
     
     /* Informação empacotada a ser enviada. */
     private Object packet;

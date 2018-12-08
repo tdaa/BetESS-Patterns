@@ -1242,7 +1242,12 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
      * @param apostas - apostas do utilizador.
      */
     public void addAllApostasTable(Collection<Aposta> apostas) {
-        DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Identificador da aposta");
+        model.addColumn("Ganho Possível");
+        model.addColumn("Estado");
+        
+                //this.jTableMinhasApostas.getModel();
         
         apostas.forEach(a -> {
             model.addRow(new Object[] {
@@ -1251,6 +1256,8 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
                 converte(a.getIsTerminada())
             });
         });
+        
+        this.jTableMinhasApostas.setModel(model);
     }
     
     public String converte(boolean t) {

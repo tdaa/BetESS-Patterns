@@ -28,9 +28,11 @@ public class Facade implements Subject, Serializable {
     private Map<String, Apostador> apostadores;
     private Map<Integer, Evento> eventos;
     private Map<String, LinkedList<Aposta>> apostas;
+    private Map<Integer, Aposta> apostasGerais;
     private Aposta newAposta;
     private ArrayList<Observer> observers;
     private DataBetESS bd;
+    private Bookie bookie;
 
     /**
      * Construtor Vazio - Facade.
@@ -40,9 +42,11 @@ public class Facade implements Subject, Serializable {
         this.apostadores = new HashMap<>();
         this.eventos = new HashMap<>();
         this.apostas = new HashMap<>();
+        this.apostasGerais = new HashMap<>();
         this.newAposta = new Aposta();
         this.observers = new ArrayList<>();
         this.bd = new DataBetESS();
+        this.bookie = new Bookie();
     }
 
     /**
@@ -85,7 +89,9 @@ public class Facade implements Subject, Serializable {
     }
 
     public void setEventos(Map<Integer, Evento> eventos) {
-        this.eventos = eventos;
+        eventos.entrySet().forEach(m -> {
+            this.eventos.put(m.getKey(), m.getValue());
+        });
     }
 
     public Map<String, LinkedList<Aposta>> getApostas() {
@@ -116,6 +122,22 @@ public class Facade implements Subject, Serializable {
         });
     }
     
+    public Map<Integer, Aposta> getApostasgerais() {
+        Map<Integer, Aposta> aps = new HashMap<>();
+        
+        this.apostasGerais.entrySet().forEach(m -> {
+            aps.put(m.getKey(), m.getValue());
+        });
+        
+        return aps;
+    }
+
+    public void setApostasGerais(Map<Integer, Aposta> apostas) {
+        apostas.entrySet().forEach(m -> {
+            this.apostasGerais.put(m.getKey(), m.getValue());
+        });
+    }
+    
     public Object getObserverMenuApostador(){
         MenuApostador ma = null;
         
@@ -132,7 +154,15 @@ public class Facade implements Subject, Serializable {
 
     public void setNewAposta(Aposta newAposta) {
         this.newAposta = newAposta;
-    }   
+    }
+
+    public Bookie getBookie() {
+        return bookie;
+    }
+
+    public void setBookie(Bookie bookie) {
+        this.bookie = bookie;
+    }
     
     
     /* Consultar evento por id */
@@ -145,6 +175,7 @@ public class Facade implements Subject, Serializable {
         return e;
     }
     
+    /* Consultar apostador por email */
     public Apostador getApostador(String email) {
         Apostador a = null;
         
@@ -194,18 +225,22 @@ public class Facade implements Subject, Serializable {
             this.setUser(email);
             estatuto = 0;
         } else {
-            if (this.apostadores.containsKey(email)) {
-                Apostador a = this.apostadores.get(email);
+             if (email.equals("bookie@betess.pt") && pass.equals("bookieBet")){
+                this.setUser(email);
+                estatuto = 2;
+            } else {
+                 if (this.apostadores.containsKey(email)) {
+                    Apostador a = this.apostadores.get(email);
                 
-                if (pass.equals(a.getPassword())) {
-                    this.setUser(email);
-                    estatuto = 1;
+                    if (pass.equals(a.getPassword())) {
+                        this.setUser(email);
+                        estatuto = 1;
+                    } else 
+                        throw new PassErradaException("Password incorreta!");
                 } else 
-                    throw new PassErradaException("Password incorreta!");
-            } else
-                throw new EmailErradoException("Email errado!");
+                     throw new EmailErradoException("Email errado!");
+            }
         }
-        
         return estatuto;
     }
     
@@ -222,6 +257,9 @@ public class Facade implements Subject, Serializable {
         
         // Substraí número de coins apostadas ao total do User.
         this.getApostador(userEmail).subtractTotalCoins(essCoins);
+        
+        this.newAposta.setIdAposta(this.apostasGerais.size() + 1);
+        this.apostasGerais.put(newAposta.getIdAposta(), newAposta);
         
         // Adiciona a nova aposta à respetiva estrutura de dados.
         this.apostadores.get(userEmail).addAposta(this.newAposta);
@@ -354,12 +392,13 @@ public class Facade implements Subject, Serializable {
         
         if (this.eventos.containsKey(idEvento)) {
             this.eventos.get(idEvento).setEstado("FECHADO");
-            boolean terminada = true;
+            boolean terminada;
             
             
             for (String apostador: this.apostas.keySet()) {
                 LinkedList<Aposta> lista = this.apostas.get(apostador);
                 for (Aposta a: lista) {
+                    terminada = true;
                     if (!a.getIsTerminada()) {
                         for (Evento e: a.getEventos().values()) {      
                             if (e.getIdEvento() == idEvento) {
@@ -429,8 +468,28 @@ public class Facade implements Subject, Serializable {
                 vitoria = false;
         }
         
-        if (vitoria) 
+        if (vitoria){
             this.apostadores.get(user).addTotalCoins(a.getGanhoTotal());
+            Collection<Evento> listaEventos = a.getEventos().values();
+            this.bookie.verificaEventos(listaEventos, a);
+        } else {
+            Collection<Evento> listaEventos = a.getEventos().values();
+            this.bookie.verificaEventos(listaEventos, a);
+        }
+            
+    }
+    
+    public double getGanhoEmAposta(int idAposta){
+        double ganho = 0;
+        
+        for(LinkedList<Aposta> lista: this.apostas.values()){
+            for(Aposta a: lista){
+                if(a.getIsTerminada() && a.getIdAposta() ==  idAposta){
+                    ganho = a.getGanhoTotal();
+                }
+            }
+        }
+        return ganho;
     }
            
     /**
@@ -519,5 +578,50 @@ public class Facade implements Subject, Serializable {
         for (Observer obs: this.observers) {
             obs.update(s.getPacket());
         } 
+    }
+
+    public boolean novoInteresseEvento(int idEvento) {
+        return this.bookie.novoEvento(idEvento);
+    }
+    
+    public boolean temNotificacoes(){
+        return this.bookie.size();
+    }
+    
+    public Map<Integer, Map<Integer, Evento>> getBookieEventos(){
+        return this.bookie.getEventos();
+    }
+    
+     /**
+     *
+     */
+    public void limpaNotificados(){
+        this.bookie.limpaVistos();
+        this.existeEventosEmAposta();
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public void existeEventosEmAposta(){
+        boolean existe = false;
+        
+        for(Map.Entry<Integer, Boolean> m: this.bookie.getEventosInteressados().entrySet()){
+            
+            for(LinkedList<Aposta> lista : this.apostas.values()){
+                for(Aposta a: lista){
+                    Map<Integer,Evento> eventos = a.getEventos();
+                    if(!a.getIsTerminada() && eventos.containsKey(m.getKey())){
+                        existe = true;
+                    }
+                }
+                if(!existe){
+                    this.bookie.removeEvento(m.getKey());
+                }
+            }
+        }
+        
+        
     }
 }

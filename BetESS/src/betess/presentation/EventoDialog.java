@@ -14,7 +14,7 @@ public class EventoDialog extends javax.swing.JDialog {
     
     private Facade betEss;
     private Evento evento;
-    private Aposta aposta;
+    //private Aposta aposta;
     
     /**
      * Creates new form EventoDialog.
@@ -28,7 +28,7 @@ public class EventoDialog extends javax.swing.JDialog {
     public EventoDialog(java.awt.Frame parent, boolean modal, Facade b, int idEvento, Aposta a) {
         super(parent, modal);
         this.betEss = b;
-        this.aposta = a;
+        //this.aposta = a;
         this.evento = this.betEss.getEvento(idEvento);
         
         initComponents();
@@ -317,15 +317,15 @@ public class EventoDialog extends javax.swing.JDialog {
     private void jPanelAddEventoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelAddEventoMouseClicked
         if (this.oddUm.isSelected() && !this.oddDois.isSelected() && !this.oddX.isSelected()) {
             double odd = Double.valueOf(this.oddUm.getText());
-            this.aposta.addEventoToAposta(this.evento, odd);
+            this.betEss.getNewAposta().addEventoToAposta(this.evento, odd);
             this.dispose();
         } else if (!this.oddUm.isSelected() && this.oddDois.isSelected() && !this.oddX.isSelected()) {
             double odd = Double.valueOf(this.oddDois.getText());
-            this.aposta.addEventoToAposta(this.evento, odd);
+            this.betEss.getNewAposta().addEventoToAposta(this.evento, odd);
             this.dispose();
         } else if (!this.oddUm.isSelected() && !this.oddDois.isSelected() && this.oddX.isSelected()) {
             double odd = Double.valueOf(this.oddX.getText());
-            this.aposta.addEventoToAposta(this.evento, odd);
+            this.betEss.getNewAposta().addEventoToAposta(this.evento, odd);
             this.dispose();
         }
     }//GEN-LAST:event_jPanelAddEventoMouseClicked

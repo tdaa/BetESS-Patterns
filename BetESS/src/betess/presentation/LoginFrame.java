@@ -286,6 +286,15 @@ public class LoginFrame extends javax.swing.JFrame {
                 menu.setLocationRelativeTo(null);
                 menu.setVisible(true);
                 this.dispose();
+            } else if (estatuto == 2) {
+                MenuBookie mb = new MenuBookie(this.betEss);
+                mb.setLocationRelativeTo(null);
+                mb.setVisible(true);
+                if (this.betEss.temNotificacoes()){
+                    JDialogNotificacoesBookie noteBookie = new JDialogNotificacoesBookie(this, true, this.betEss);
+                    noteBookie.setVisible(true);
+                }
+                this.dispose();
             }
         } else
             javax.swing.JOptionPane.showMessageDialog(this, "Não confirmou termos e condições!", "Termos e Condições", 0); 

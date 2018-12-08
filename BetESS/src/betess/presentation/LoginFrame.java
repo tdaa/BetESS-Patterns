@@ -284,16 +284,28 @@ public class LoginFrame extends javax.swing.JFrame {
             } else if (estatuto == 1) {
                 MenuApostador menu = new MenuApostador(this.betEss);
                 menu.setLocationRelativeTo(null);
-                menu.setVisible(true);
+                menu.setVisible(true);  
+                
+                if (this.betEss.temNotificationsApostador()) {
+                    JDialogNotifications notiDialog
+                            = new JDialogNotifications(this, true, this.betEss, estatuto);
+                    notiDialog.setVisible(true);
+                    notiDialog.setLocationRelativeTo(null);
+                }
+
                 this.dispose();
             } else if (estatuto == 2) {
                 MenuBookie mb = new MenuBookie(this.betEss);
                 mb.setLocationRelativeTo(null);
                 mb.setVisible(true);
-                if (this.betEss.temNotificacoes()){
-                    JDialogNotificacoesBookie noteBookie = new JDialogNotificacoesBookie(this, true, this.betEss);
-                    noteBookie.setVisible(true);
+                
+                if (this.betEss.temNotificationsBookie()) {
+                    JDialogNotifications notiDialog
+                            = new JDialogNotifications(this, true, this.betEss, estatuto);
+                    notiDialog.setVisible(true);
+                    notiDialog.setLocationRelativeTo(null);
                 }
+                
                 this.dispose();
             }
         } else

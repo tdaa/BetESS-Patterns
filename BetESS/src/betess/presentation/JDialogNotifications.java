@@ -65,6 +65,7 @@ public class JDialogNotifications extends javax.swing.JDialog {
                     ev.getEquipaUm(),
                     ev.getEquipaDois(),
                     ev.getResultado(),
+                    this.betEss.getResultadoApostado(idAposta, ev),
                     ganho
                 });
             });
@@ -80,20 +81,23 @@ public class JDialogNotifications extends javax.swing.JDialog {
         Map<Integer, Map<Integer, Evento>> eventos = this.betEss.getBookieEventos();
         Evento evento;
         double ganho;
+        int idAposta;
         
         DefaultTableModel model = (DefaultTableModel) this.jTableEventos.getModel();
         
         for (Map.Entry<Integer, Map<Integer, Evento> > m: eventos.entrySet()) {
-            for (Map.Entry<Integer, Evento> m2: m.getValue().entrySet()) {   
+            for (Map.Entry<Integer, Evento> m2: m.getValue().entrySet()) {
+                idAposta = m.getKey();
                 evento = m2.getValue();
                 ganho = this.betEss.getGanhoEmAposta(m.getKey());
                 
                 model.addRow(new Object[] {
-                    m.getKey(),
+                    idAposta,
                     m2.getKey(),
                     evento.getEquipaUm(),
                     evento.getEquipaDois(),
                     evento.getResultado(),
+                    this.betEss.getResultadoApostado(idAposta, evento),
                     ganho
                 });
             }
@@ -140,11 +144,11 @@ public class JDialogNotifications extends javax.swing.JDialog {
 
             },
             new String [] {
-                "ID Aposta", "ID Evento", "Equipa 1", "Equipa 2", "Resultado", "Ganho"
+                "ID Aposta", "ID Evento", "Equipa 1", "Equipa 2", "Resultado", "Resultado Apostado", "Ganho na aposta"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -171,27 +175,26 @@ public class JDialogNotifications extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel1)
+                .addContainerGap(701, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(okBtn)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(43, 43, 43)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(78, 78, 78)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(78, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(36, 36, 36)
                 .addComponent(okBtn)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

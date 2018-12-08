@@ -7,6 +7,7 @@ import betess.business.Evento;
 import betess.business.Observer;
 import java.awt.Color;
 import java.util.Collection;
+import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -542,9 +543,9 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
         jPanelCarregarCoinsLayout.setVerticalGroup(
             jPanelCarregarCoinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCarregarCoinsLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel9)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelMain_HomeLayout = new javax.swing.GroupLayout(jPanelMain_Home);
@@ -555,25 +556,25 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
                 .addGap(66, 66, 66)
                 .addGroup(jPanelMain_HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMain_HomeLayout.createSequentialGroup()
-                        .addGroup(jPanelMain_HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelMain_HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextHome_Nome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelMain_HomeLayout.createSequentialGroup()
-                                .addComponent(jLabelHome_Nome)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextHome_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelMain_HomeLayout.createSequentialGroup()
-                                .addComponent(jLabelHome_Coins)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addGap(147, 147, 147)
                                 .addComponent(jTextHome_Coins, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 217, Short.MAX_VALUE))
                     .addGroup(jPanelMain_HomeLayout.createSequentialGroup()
-                        .addGroup(jPanelMain_HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelMain_HomeLayout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(jPanelConsultarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(198, 198, 198)
-                                .addComponent(jPanelCarregarCoins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(205, Short.MAX_VALUE))))
+                        .addGap(84, 84, 84)
+                        .addComponent(jPanelConsultarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelCarregarCoins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(224, 224, 224))))
+            .addGroup(jPanelMain_HomeLayout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(jPanelMain_HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelHome_Coins)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelHome_Nome))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanelMain_HomeLayout.setVerticalGroup(
             jPanelMain_HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1039,7 +1040,7 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
             resetColor(new JPanel[] { jPanelHome, jPanelProfile, jPanelAposta }, 
                        new JPanel[] { indHome, indProfile, indAposta });
         
-            addAllApostasTable(this.betEss.getApostasUser(this.user));
+            //addAllApostasTable(this.betEss.getApostasUser(this.user));
            
             jPanelMain_Home.setVisible(false);
             jPanelMain_Profile.setVisible(false);
@@ -1061,9 +1062,7 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
 
             // Remover evento selecionado da Aposta atual.
             this.betEss.removeEventoFromAposta(e);
-
-            // Atualizar tabela de eventos.
-            setupApostaAtual();
+            
         } catch (ArrayIndexOutOfBoundsException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Nenhum evento selecionado!", "Remover Evento", 0);
         }
@@ -1225,42 +1224,50 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
     public void addAllEventosTable(Collection<Evento> eventos) {
         DefaultTableModel model = (DefaultTableModel) jTableEventos.getModel();
         
-        eventos.forEach(e -> {
-            model.addRow(new Object[] {
-                e.getIdEvento(), 
-                e.getEquipaUm(),
-                e.getEquipaDois(),
-                e.getOddUm(),
-                e.getOddDois(),
-                e.getOddX()
+        if(eventos != null){
+            eventos.forEach(e -> {
+                model.addRow(new Object[] {
+                    e.getIdEvento(), 
+                    e.getEquipaUm(),
+                    e.getEquipaDois(),
+                    e.getOddUm(),
+                    e.getOddDois(),
+                    e.getOddX()
+                });
             });
-        });
+        }
+        
     }
     
     /**
      * Adiciona todas as apostas do user em sessão à tabela.
      * @param apostas - apostas do utilizador.
      */
-    public void addAllApostasTable(Collection<Aposta> apostas) {
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Identificador da aposta");
-        model.addColumn("Ganho Possível");
-        model.addColumn("Estado");
+    public void addAllApostasTable(LinkedList<Aposta> apostas) {
+        DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
+        //model.addColumn("Identificador da aposta");
+        //model.addColumn("Ganho Possível");
+        //model.addColumn("Estado");
         
-                //this.jTableMinhasApostas.getModel();
-        
-        apostas.forEach(a -> {
-            model.addRow(new Object[] {
-                a.getIdAposta(),
-                a.getGanhoTotal(),
-                converte(a.getIsTerminada())
+        if(apostas != null){
+            apostas.forEach(a -> {
+                model.addRow(new Object[] {
+                    a.getIdAposta(),
+                    a.getGanhoTotal(),
+                    converte(a.getIsTerminada())
+                });
             });
-        });
-        
-        this.jTableMinhasApostas.setModel(model);
+        }
+      
+        //this.jTableMinhasApostas.setModel(model);
     }
     
-    public String converte(boolean t) {
+    /**
+     *
+     * @param t
+     * @return Estado de aposta.
+     */
+    private String converte(boolean t) {
         if (t) 
             return "FECHADA";
         else 
@@ -1278,23 +1285,49 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Object o) {   
         if (o instanceof Aposta) {
+            
             Aposta a = (Aposta) o;
-            int id = a.getIdAposta();
-            boolean encontrado = false;
-            DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
-             
-            for (int count = 0; count < model.getRowCount() && !encontrado; count++) {
-                if (Integer.parseInt(model.getValueAt(count, 0).toString()) == id) {
-                    encontrado = true;
-                    model.setValueAt(converte(a.getIsTerminada()), count, 2);
-                }
-            } 
+            
+            if (a.getIsTerminada()){
+                int id = a.getIdAposta();
+                boolean encontrado = false;
+                DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
+
+                for (int count = 0; count < model.getRowCount() && !encontrado; count++) {
+                    if (Integer.parseInt(model.getValueAt(count, 0).toString()) == id) {
+                        encontrado = true;
+                        model.setValueAt(converte(a.getIsTerminada()), count, 2);
+                    }
+                } 
+            } else {
+                DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
+                
+                 model.addRow(new Object[] {
+                    a.getIdAposta(),
+                    a.getGanhoTotal(),
+                    this.converte(a.getIsTerminada())
+                });
+            }
+            
         } else if (o instanceof String) {
             String nome = (String) o;
             this.jTextHome_Nome.setText(nome);
         } else if (o instanceof Double) {
             Double coins = (Double) o;
             this.jTextHome_Coins.setText("" + coins);
+        } else if (o instanceof Evento){
+            Evento e = (Evento) o;
+            
+            DefaultTableModel model = (DefaultTableModel) this.jTableAposta.getModel();
+            boolean encontrado = false;
+            int idEvento = e.getIdEvento();
+            
+            for (int count = 0; count < model.getRowCount() && !encontrado; count++) {
+                if (Integer.parseInt(model.getValueAt(count, 0).toString()) == idEvento) {
+                    encontrado = true;
+                    model.removeRow(count);
+                }
+            }
         }
     }
     

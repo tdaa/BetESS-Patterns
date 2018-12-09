@@ -1284,11 +1284,10 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
      */
     @Override
     public void update(Object o) {   
-        if (o instanceof Aposta) {
-            
+        if (o instanceof Aposta) {           
             Aposta a = (Aposta) o;
             
-            if (a.getIsTerminada()){
+            if (a.getIsTerminada()) {
                 int id = a.getIdAposta();
                 boolean encontrado = false;
                 DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
@@ -1300,9 +1299,14 @@ public class MenuApostador extends javax.swing.JFrame implements Observer {
                     }
                 } 
             } else {
+                // Atualiza coins anteriormente apostadas.
+                this.jTextHome_Coins.setText("" + 
+                        this.betEss.getApostador(this.user)
+                                   .getEssCoins());
+                
                 DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
                 
-                 model.addRow(new Object[] {
+                model.addRow(new Object[] {
                     a.getIdAposta(),
                     a.getGanhoTotal(),
                     this.converte(a.getIsTerminada())

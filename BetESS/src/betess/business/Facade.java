@@ -278,8 +278,6 @@ public class Facade implements Subject, Serializable {
         this.notifyObserver(s);
         
         this.newAposta = new Aposta();
-        
-        
     }
     
     /**
@@ -493,9 +491,10 @@ public class Facade implements Subject, Serializable {
     }
     
     /**
-     *
+     * Método getGanhoEmAposta(...).
+     * 
      * @param idAposta
-     * @return Real ganho numa aposta.
+     * @return - real ganho numa aposta.
      */
     public double getGanhoEmAposta(int idAposta){
         boolean vitoria = true;
@@ -530,9 +529,10 @@ public class Facade implements Subject, Serializable {
     }
     
     /**
+     * Método getGanhoPossivelEmAposta(...).
      *
      * @param idAposta
-     * @return Possível ganho total numa aposta.
+     * @return - possível ganho total numa aposta.
      */
     public double getGanhoPossivelEmAposta(int idAposta) {
         double ganho = 0;

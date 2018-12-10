@@ -694,4 +694,8 @@ public class Facade implements Subject, Serializable {
             obs.update(s.getPacket());
         } 
     }
+    
+    public void clearObservers(){
+        this.observers.clear();
+    }
 }

@@ -33,6 +33,8 @@ public class DataBetESS implements Serializable {
      * @param system
      */
     public void writeData(String fileName, Facade system) {
+        system.clearObservers();
+        
         try {
             FileOutputStream fos = new FileOutputStream(fileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -56,6 +58,7 @@ public class DataBetESS implements Serializable {
      * @return - estado que foi lido do ficheiro.
      */
     public Facade readData(String fileName, Facade system) {
+        system.clearObservers();
         Facade betEss = system;
         
         try {

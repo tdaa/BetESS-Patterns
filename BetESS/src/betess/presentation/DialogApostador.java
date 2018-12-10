@@ -4,6 +4,7 @@ import betess.business.Aposta;
 import betess.business.Apostador;
 import betess.business.Facade;
 import betess.business.Evento;
+import java.util.LinkedList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,7 +44,11 @@ public class DialogApostador extends javax.swing.JDialog {
     public void atualizaLista(){
         DefaultTableModel model = (DefaultTableModel) this.jTableMinhasApostas.getModel();
         
-        for(Aposta a: this.betEss.getApostasUser(this.user)){
+        LinkedList<Aposta> lista = this.betEss.getApostasUser(this.user);
+        
+        
+        if (lista != null){
+            for(Aposta a: lista){
             for(Evento e: a.getEventos().values()){
                 model.addRow(new  Object[] {
                     a.getIdAposta(),
@@ -57,8 +62,8 @@ public class DialogApostador extends javax.swing.JDialog {
                 });
             }
         }
-        
-        jTableMinhasApostas.setModel(model); 
+        }
+       
     }
 
     /**
@@ -172,11 +177,9 @@ public class DialogApostador extends javax.swing.JDialog {
         jLabel6.setText("Lista de Apostas");
 
         nome.setFont(new java.awt.Font("Avenir", 0, 24)); // NOI18N
-        nome.setForeground(new java.awt.Color(0, 0, 0));
         nome.setText("jLabel7");
 
         email.setFont(new java.awt.Font("Avenir", 0, 24)); // NOI18N
-        email.setForeground(new java.awt.Color(0, 0, 0));
         email.setText("jLabel8");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -188,8 +191,8 @@ public class DialogApostador extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)))
+                            .addComponent(jLabel6)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(184, 184, 184)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -199,7 +202,7 @@ public class DialogApostador extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nome)
                             .addComponent(email))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,8 +249,6 @@ public class DialogApostador extends javax.swing.JDialog {
     private javax.swing.JLabel Nome;
     private javax.swing.JLabel email;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -255,8 +256,6 @@ public class DialogApostador extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanelVerAposta;
-    private javax.swing.JPanel jPanelVerAposta1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTableMinhasApostas;
     private javax.swing.JLabel nome;
